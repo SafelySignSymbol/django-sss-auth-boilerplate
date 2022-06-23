@@ -5,17 +5,18 @@ from web3auth.utils import recover_to_addr
 
 
 class Web3Backend(backends.ModelBackend):
-    def authenticate(self, request, address=None, token=None, signature=None):
+    def authenticate(self, request, token=None, signature=None):
         # get user model
         User = get_user_model()
         # check if the address the user has provided matches the signature
-        if not address == recover_to_addr(token, signature):
+        if not recover_to_addr(token, signature):
             return None
         else:
+            print("validate success")
             # get address field for the user model
             address_field = app_settings.WEB3AUTH_USER_ADDRESS_FIELD
             kwargs = {
-                f"{address_field}__iexact": address
+                f"{address_field}__iexact": signature[:64]
             }
             # try to get user with provided data
             user = User.objects.filter(**kwargs).first()

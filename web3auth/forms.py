@@ -5,24 +5,20 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from web3auth.settings import app_settings
-from .utils import validate_eth_address
+from .utils import validate_xym_address
 
 
 class LoginForm(forms.Form):
-    signature = forms.CharField(widget=forms.HiddenInput, max_length=132)
-    address = forms.CharField(widget=forms.HiddenInput, max_length=42, validators=[validate_eth_address])
+    payload = forms.CharField(widget=forms.HiddenInput, min_length=64)
+    # address = forms.CharField(widget=forms.HiddenInput, max_length=42, validators=[validate_eth_address])
 
     def __init__(self, token, *args, **kwargs):
         self.token = token
         super(LoginForm, self).__init__(*args, **kwargs)
 
     def clean_signature(self):
-        sig = self.cleaned_data['signature']
-        if any([
-            len(sig) != 132,
-            sig[130:] != '1b' and sig[130:] != '1c',
-            not all(c in string.hexdigits for c in sig[2:])
-        ]):
+        sig = self.cleaned_data['payload']
+        if sig == "":
             raise forms.ValidationError(_('Invalid signature'))
         return sig
 
@@ -44,8 +40,9 @@ class SignupForm(forms.ModelForm):
         self.fields[app_settings.WEB3AUTH_USER_ADDRESS_FIELD].required = True
 
     def clean_address_field(self):
-        validate_eth_address(self.cleaned_data[app_settings.WEB3AUTH_USER_ADDRESS_FIELD])
-        return self.cleaned_data[app_settings.WEB3AUTH_USER_ADDRESS_FIELD].lower()
+        addr = self.cleaned_data[app_settings.WEB3AUTH_USER_ADDRESS_FIELD].replace("-","")
+        validate_xym_address(addr)
+        return addr
 
     class Meta:
         model = get_user_model()

@@ -30,11 +30,14 @@ def get_redirect_url(request):
 @require_http_methods(["GET", "POST"])
 def login_api(request):
     if request.method == 'GET':
-        token = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for i in range(32))
+        token = '3B6A27BCCEB6A42D62A3A8D02A6F0D73653215771DE243A63AC048A18B59DA29'#暫定的に公開鍵をトークンとしてみなす
         request.session['login_token'] = token
         return JsonResponse({'data': token, 'success': True})
     else:
+        print("auth...")
         token = request.session.get('login_token')
+        print("token",token)
+        print("form:",request.POST)
         if not token:
             return JsonResponse({'error': _(
                 "No login token in session, please request token again by sending GET request to this url"),
@@ -42,18 +45,24 @@ def login_api(request):
         else:
             form = LoginForm(token, request.POST)
             if form.is_valid():
-                signature, address = form.cleaned_data.get("signature"), form.cleaned_data.get("address")
+                payload = form.cleaned_data.get("payload")
+                # signature, address = form.cleaned_data.get("payload"), form.cleaned_data.get("address")
+                print("payload:",payload)
                 del request.session['login_token']
-                user = authenticate(request, token=token, address=address, signature=signature)
-                if user:
-                    login(request, user, 'web3auth.backend.Web3Backend')
+                try:
+                    user = authenticate(request, token=token, signature=payload)
+                    if user:
+                        login(request, user, 'web3auth.backend.Web3Backend')
 
-                    return JsonResponse({'success': True, 'redirect_url': get_redirect_url(request)})
-                else:
-                    error = _("Can't find a user for the provided signature with address {address}").format(
-                        address=address)
-                    return JsonResponse({'success': False, 'error': error})
+                        return JsonResponse({'success': True, 'redirect_url': get_redirect_url(request)})
+                    else:
+                        error = _("Can't find a user for the provided signature with address {address}").format(
+                            address=payload[:64])
+                        return JsonResponse({'success': False, 'error': error})
+                except ValueError:
+                    return JsonResponse({'success': False, 'error': "invalid value"})
             else:
+                print("form error")
                 return JsonResponse({'success': False, 'error': json.loads(form.errors.as_json())})
 
 

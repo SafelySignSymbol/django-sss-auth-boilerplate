@@ -1,7 +1,7 @@
 {% extends 'web3auth/base.html' %}
 {% block content %}
   <div class="row m-t-2">
-    <button type="button" onclick="startLogin()">Login</button>
+    <button type="button" onclick="requestToken()">Login</button>
   </div>
 {% endblock content %}
 {% block javascript %}
@@ -22,6 +22,26 @@
 
       } else {
         alert('web3 missing');
+      }
+    }
+
+    function requestToken() {
+      if (typeof window.SSS !== 'undefined') {
+        checkSSS(function (loggedIn) {
+          if (!loggedIn) {
+            alert("Please allow thin page in SSS")
+          } else {
+            // alert(window.SSS.activePublicKey)
+            var login_url = '{% url 'web3auth:web3auth_login_api' %}';
+            SSSLogin(login_url)
+            // web3Login(login_url, console.log, console.log, console.log, console.log, console.log, function (resp) {
+            //   window.location.replace(resp.redirect_url);
+            // });
+          }
+        });
+
+      } else {
+        alert('SSS missing');
       }
     }
   </script>
