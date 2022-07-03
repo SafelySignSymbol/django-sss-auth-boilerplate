@@ -31,13 +31,11 @@
           if (!loggedIn) {
             alert("Please allow thin page in SSS")
           } else {
-            // alert(window.SSS.activePublicKey)
             var login_url = '{% url 'web3auth:web3auth_login_api' %}';
-            SSSLogin(login_url)
-            // web3Login(login_url, console.log, console.log, console.log, console.log, console.log, function (resp) {
-            //   window.location.replace(resp.redirect_url);
-            // });
-          }
+            SSSLogin(login_url,console.log, console.log, console.log, console.log, console.log, function (resp) {
+              window.location.replace(resp.redirect_url);
+          })
+        };
         });
 
       } else {

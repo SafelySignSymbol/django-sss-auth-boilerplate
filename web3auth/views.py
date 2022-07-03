@@ -30,7 +30,7 @@ def get_redirect_url(request):
 @require_http_methods(["GET", "POST"])
 def login_api(request):
     if request.method == 'GET':
-        token = '3B6A27BCCEB6A42D62A3A8D02A6F0D73653215771DE243A63AC048A18B59DA29'#暫定的に公開鍵をトークンとしてみなす
+        token = settings.PUB
         request.session['login_token'] = token
         return JsonResponse({'data': token, 'success': True})
     else:
@@ -51,6 +51,7 @@ def login_api(request):
                 del request.session['login_token']
                 try:
                     user = authenticate(request, token=token, signature=payload)
+                    print(user)
                     if user:
                         login(request, user, 'web3auth.backend.Web3Backend')
 
@@ -59,7 +60,8 @@ def login_api(request):
                         error = _("Can't find a user for the provided signature with address {address}").format(
                             address=payload[:64])
                         return JsonResponse({'success': False, 'error': error})
-                except ValueError:
+                except ValueError(e):
+                    print(e)
                     return JsonResponse({'success': False, 'error': "invalid value"})
             else:
                 print("form error")

@@ -3,26 +3,46 @@ import json
 import symbolhkdf
 import time
 import datetime
+import binascii
 import base64
 import hashlib
 from eth_utils import is_hex_address
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from ethereum.utils import ecrecover_to_pub
+from django.conf import settings
 
 ###########テスト用，要削除
-server_secret = "0000000000000000000000000000000000000000000000000000000000000000"
-pub = "3B6A27BCCEB6A42D62A3A8D02A6F0D73653215771DE243A63AC048A18B59DA29"
-owner = "TCHBDENCLKEBILBPWP3JPB2XNY64OE7PYHHE32I"
+server_secret = settings.SERVER_SECRET
+pub = settings.PUB
+owner = settings.OWNER
 deadline = 60 * 60 * 24 * 1000
 
+def publicKey_to_addr(publicKey,networkType=152):
+    if len(publicKey)!=64:
+        raise ValueError("Invalid publicKey")
+    part_one_hash_builder = hashlib.sha3_256()
+    part_one_hash_builder.update(binascii.unhexlify(publicKey))
+    part_one_hash = part_one_hash_builder.digest()
+
+    part_two_hash_builder = hashlib.new('ripemd160')
+    part_two_hash_builder.update(part_one_hash)
+    part_two_hash = part_two_hash_builder.digest()
+
+    version = bytes([networkType]) + part_two_hash
+
+    part_three_hash_builder = hashlib.sha3_256()
+    part_three_hash_builder.update(version)
+    checksum = part_three_hash_builder.digest()[0:3]
+    address_encode = base64.b32encode(version+checksum).decode('utf-8')[:-1]
+    return address_encode
 
 def recover_to_addr(token, payload):
     sender_publickey = payload[:64]
     encrypted_message = payload[64:]
     decode = json.loads(symbolhkdf.decode(server_secret, sender_publickey, encrypted_message))#復号
-    print(decode)
-    iat = decode["iat"]
+    print("addr:", publicKey_to_addr(sender_publickey,settings.NETWORK_TYPE))
+    iat = decode["iat"] 
     signer = decode["signerAddress"]
     verifier = decode["verifierAddress"]
     if verifier != owner:
