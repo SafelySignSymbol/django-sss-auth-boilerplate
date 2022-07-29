@@ -1,22 +1,13 @@
-import sha3
 import json
 import symbolhkdf
 import time
-import datetime
 import binascii
 import base64
 import hashlib
-from eth_utils import is_hex_address
+
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from ethereum.utils import ecrecover_to_pub
 from django.conf import settings
-
-###########テスト用，要削除
-server_secret = settings.SERVER_SECRET
-pub = settings.PUB
-owner = settings.OWNER
-deadline = 60 * 60 * 24 * 1000
 
 def publicKey_to_addr(publicKey,networkType=152):
     if len(publicKey)!=64:
@@ -40,14 +31,14 @@ def publicKey_to_addr(publicKey,networkType=152):
 def recover_to_addr(token, payload):
     sender_publickey = payload[:64]
     encrypted_message = payload[64:]
-    decode = json.loads(symbolhkdf.decode(server_secret, sender_publickey, encrypted_message))#復号
+    decode = json.loads(symbolhkdf.decode(settings.SERVER_SECRET, sender_publickey, encrypted_message))#復号
     print("addr:", publicKey_to_addr(sender_publickey,settings.NETWORK_TYPE))
     iat = decode["iat"] 
     signer = decode["signerAddress"]
     verifier = decode["verifierAddress"]
-    if verifier != owner:
+    if verifier != settings.OWNER:
         raise ValueError("Invalid verifier")
-    if time.time()*1000 - int(iat) + deadline < 0:
+    if time.time()*1000 - int(iat) + settings.EXPIRATION_DATE < 0:
         raise ValueError("iat expired")
     return signer
 
