@@ -7,11 +7,11 @@ from web3auth.utils import publicKey_to_addr
 
 
 class Web3Backend(backends.ModelBackend):
-    def authenticate(self, request, token=None, signature=None):
+    def authenticate(self, request, signature=None):
         # get user model
         User = get_user_model()
         # check if the address the user has provided matches the signature
-        if not recover_to_addr(token, signature):
+        if not recover_to_addr(signature):
             return None
         else:
             print("validate success")

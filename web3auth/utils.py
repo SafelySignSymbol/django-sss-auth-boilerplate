@@ -9,8 +9,8 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
-def publicKey_to_addr(publicKey,networkType=152):
-    if len(publicKey)!=64:
+def publicKey_to_addr(publicKey,networkType = 152):
+    if len(publicKey)!= 64:
         raise ValueError("Invalid publicKey")
     part_one_hash_builder = hashlib.sha3_256()
     part_one_hash_builder.update(binascii.unhexlify(publicKey))
@@ -28,7 +28,7 @@ def publicKey_to_addr(publicKey,networkType=152):
     address_encode = base64.b32encode(version+checksum).decode('utf-8')[:-1]
     return address_encode
 
-def recover_to_addr(token, payload):
+def recover_to_addr(payload):
     sender_publickey = payload[:64]
     encrypted_message = payload[64:]
     decode = json.loads(symbolhkdf.decode(settings.SERVER_SECRET, sender_publickey, encrypted_message))#復号

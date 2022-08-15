@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'django_bootstrap5',
+    'web3auth'
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/'
+
+# web3auth設定
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'web3auth.backend.Web3Backend'
+]
+
+SERVER_SECRET = '0000000000000000000000000000000000000000000000000000000000000000'
+PUB = "3B6A27BCCEB6A42D62A3A8D02A6F0D73653215771DE243A63AC048A18B59DA29"
+OWNER = "TCHBDENCLKEBILBPWP3JPB2XNY64OE7PYHHE32I"
+NETWORK_TYPE = 152
+EXPIRATION_DATE = 60 * 60 * 24 * 1000

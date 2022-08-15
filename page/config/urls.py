@@ -14,12 +14,32 @@ Including another URLconf
   2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.views.generic import RedirectView
 from . import views
+from django.urls import path, include, re_path
+from django.shortcuts import render, redirect
+
+
+def login(request):
+    if not request.user.is_authenticated:
+        return render(request, 'web3auth/login.html')
+    else:
+        return redirect('/admin/login')
+
+
+def auto_login(request):
+    if not request.user.is_authenticated:
+        return render(request, 'web3auth/autologin.html')
+    else:
+        return redirect('/admin/login')
 
 urlpatterns = [
   path('admin/', admin.site.urls),
   path('accounts/', include('accounts.urls')),
   path('', views.IndexView.as_view(), name='index'),
-  path('home', views.HomeView.as_view(), name='home')
+  path('home', views.HomeView.as_view(), name='home'),
+  # re_path(r'^$', RedirectView.as_view(url='/login')),
+  # re_path(r'^login/', login, name='login'),
+  # re_path(r'^auto_login/', auto_login, name='autologin'),
+  re_path(r'', include('web3auth.urls')),
 ]

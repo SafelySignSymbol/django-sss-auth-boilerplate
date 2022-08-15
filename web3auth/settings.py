@@ -5,7 +5,7 @@ class AppSettings(object):
     @property
     def WEB3AUTH_USER_ADDRESS_FIELD(self):
         """
-        Field on the User model, which has ethereum address to check against.
+        Field on the User model, which has catapult address to check against.
         This allows you to store it somewhere in arbitrary place other than just username.
         """
         return getattr(django_settings, 'WEB3AUTH_USER_ADDRESS_FIELD', 'username')

@@ -5,12 +5,11 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from web3auth.settings import app_settings
-from .utils import validate_xym_address
+from web3auth.utils import validate_xym_address
 
 
 class LoginForm(forms.Form):
     payload = forms.CharField(widget=forms.HiddenInput, min_length=64)
-    # address = forms.CharField(widget=forms.HiddenInput, max_length=42, validators=[validate_eth_address])
 
     def __init__(self, token, *args, **kwargs):
         self.token = token

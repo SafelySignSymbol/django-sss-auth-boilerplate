@@ -2,11 +2,13 @@ import json
 
 from django.conf import settings
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse
 from django.urls.exceptions import NoReverseMatch
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
+from django.views.generic import TemplateView
 
 from web3auth.forms import LoginForm, SignupForm
 from web3auth.settings import app_settings
@@ -48,7 +50,7 @@ def login_api(request):
                 print("payload:",payload)
                 del request.session['login_token']
                 try:
-                    user = authenticate(request, token=token, signature=payload)
+                    user = authenticate(request, signature=payload)
                     print(user)
                     if user:
                         login(request, user, 'web3auth.backend.Web3Backend')
