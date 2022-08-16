@@ -1,0 +1,46 @@
+{% extends 'web3auth/base.html' %}
+{% block content %}
+  <div class="row m-t-2">
+    <button type="button" onclick="requestToken()">Login</button>
+  </div>
+{% endblock content %}
+{% block javascript %}
+  {{ block.super }}
+  <script>
+    function startLogin() {
+      if (typeof web3 !== 'undefined') {
+        checkWeb3(function (loggedIn) {
+          if (!loggedIn) {
+            alert("Please unlock your web3 provider (probably, Metamask)")
+          } else {
+            var login_url = '{% url 'web3auth:web3auth_login_api' %}';
+            web3Login(login_url, console.log, console.log, console.log, console.log, console.log, function (resp) {
+              window.location.replace(resp.redirect_url);
+            });
+          }
+        });
+
+      } else {
+        alert('web3 missing');
+      }
+    }
+
+    function requestToken() {
+      if (typeof window.SSS !== 'undefined') {
+        checkSSS(function (loggedIn) {
+          if (!loggedIn) {
+            alert("Please allow thin page in SSS")
+          } else {
+            var login_url = '{% url 'web3auth:web3auth_login_api' %}';
+            SSSLogin(login_url,console.log, console.log, console.log, console.log, console.log, function (resp) {
+              window.location.replace(resp.redirect_url);
+          })
+        };
+        });
+
+      } else {
+        alert('SSS missing');
+      }
+    }
+  </script>
+{% endblock javascript %}
