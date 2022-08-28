@@ -131,6 +131,9 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/'
 
+# Using CustomUser
+AUTH_USER_MODEL = 'web3auth.MyUser'
+
 # web3auth設定
 
 AUTHENTICATION_BACKENDS = [

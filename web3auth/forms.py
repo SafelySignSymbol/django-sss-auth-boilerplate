@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from web3auth.settings import app_settings
 from web3auth.utils import validate_xym_address
 
+CustomUser = get_user_model()
 
 class LoginForm(forms.Form):
     payload = forms.CharField(widget=forms.HiddenInput, min_length=64)
@@ -44,7 +45,7 @@ class SignupForm(forms.ModelForm):
         return addr
 
     class Meta:
-        model = get_user_model()
+        model = CustomUser
         fields = signup_fields
 
 

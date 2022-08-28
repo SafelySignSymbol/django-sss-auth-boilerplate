@@ -38,8 +38,5 @@ urlpatterns = [
   path('accounts/', include('accounts.urls')),
   path('', views.IndexView.as_view(), name='index'),
   path('home', views.HomeView.as_view(), name='home'),
-  # re_path(r'^$', RedirectView.as_view(url='/login')),
-  # re_path(r'^login/', login, name='login'),
-  # re_path(r'^auto_login/', auto_login, name='autologin'),
   re_path(r'', include('web3auth.urls')),
 ]
