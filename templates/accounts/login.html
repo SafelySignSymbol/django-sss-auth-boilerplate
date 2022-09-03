@@ -2,12 +2,5 @@
 {% load django_bootstrap5 %}
 
 {% block main %}
-<h2>ログイン</h2>
-
-<form method="post">
-  {% csrf_token %}
-  <input type="hidden" name="next" value="{{ next }}" />
-  {% bootstrap_form form %}
-  {% bootstrap_button button_type="submit" content="ログイン" %}
-</form>
+<h2>右上のログインボタンを押して認証してください。</h2>
 {% endblock %}
