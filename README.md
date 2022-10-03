@@ -86,7 +86,7 @@ symbol-hkdf-python
 │   ├── templates
 │   ├── tests
 │   ├── tox.ini
-│   └── web3auth
+│   └── sssauth
 └── script
     └── init.sh
 ```
@@ -95,7 +95,7 @@ symbol-hkdf-python
 if [ ! -e '/check' ]; then
     echo "### initialize start   ####"
     touch /check
-    python manage.py makemigrations web3auth
+    python manage.py makemigrations sssauth
     python manage.py migrate
     echo "### initialize end   ####"
 else

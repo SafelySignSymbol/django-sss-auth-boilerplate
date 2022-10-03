@@ -2,28 +2,28 @@
 Django-Web3-Auth
 =============================
 
-.. image:: https://badge.fury.io/py/django-web3-auth.svg
-    :target: https://badge.fury.io/py/django-web3-auth
+.. .. image:: https://badge.fury.io/py/django-sss-auth.svg
+..     :target: https://badge.fury.io/py/django-sss-auth
 
-.. image:: https://travis-ci.org/Bearle/django-web3-auth.svg?branch=master
-    :target: https://travis-ci.org/Bearle/django-web3-auth
+.. .. image:: https://travis-ci.org/Bearle/django-sss-auth.svg?branch=master
+..     :target: https://travis-ci.org/Bearle/django-sss-auth
 
-.. image:: https://codecov.io/gh/Bearle/django-web3-auth/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/Bearle/django-web3-auth
+.. .. image:: https://codecov.io/gh/Bearle/django-sss-auth/branch/master/graph/badge.svg
+..     :target: https://codecov.io/gh/Bearle/django-sss-auth
 
-django-web3-auth is a pluggable Django app that enables login/signup via an Ethereum wallet (a la CryptoKitties). The user authenticates themselves by digitally signing the session key with their wallet's private key.
+sssauth is a pluggable Django app that enables login/signup via an SSS Extension.
 
-.. image:: https://github.com/Bearle/django-web3-auth/blob/master/docs/_static/web3_auth_test.gif?raw=true
+image:: https://github.com/Bearle/django-sss-auth/blob/master/docs/_static/web3_auth_test.gif?raw=true
 
-Documentation
--------------
+.. Documentation
+.. -------------
 
-The full documentation is at https://django-web3-auth.readthedocs.io.
+.. The full documentation is at https://django-sss-auth.readthedocs.io.
 
 Example project
 ---------------
 
-https://github.com/Bearle/django-web3-auth/tree/master/example
+https://github.com/SafelySignSymbol/django-sss-auth-boilerplate/tree/master/example
 
 You can check out our example project by cloning the repo and heading into example/ directory.
 There is a README file for you to check, also.
@@ -43,9 +43,9 @@ Features
 
 Quickstart
 ----------
-Install Django-Web3-Auth with pip::
+Install sssuth with pip::
 
-    pip install django-web3-auth
+    pip install sssauth
 
 Add it to your `INSTALLED_APPS`:
 
@@ -53,42 +53,42 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'web3auth.apps.Web3AuthConfig',
+        'sssauth.apps.sssAuthConfig',
         ...
     )
 
-Set `'web3auth.backend.Web3Backend'` as your authentication backend:
+Set `'sssauth.backend.Web3Backend'` as your authentication backend:
 
 .. code-block:: python
 
     AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'web3auth.backend.Web3Backend'
+    'sssauth.backend.Web3Backend'
     ]
 
 Set your User model's field to use as ETH address provider:
 
 .. code-block:: python
 
-    WEB3AUTH_USER_ADDRESS_FIELD = 'username'
+    SSSAUTH_USER_ADDRESS_FIELD = 'username'
 
 And if you have some other fields you want to be in the SignupForm, add them too:
 
 .. code-block:: python
 
-    WEB3AUTH_USER_SIGNUP_FIELDS = ['email',]
+    SSSAUTH_USER_SIGNUP_FIELDS = ['email',]
 
 
 Add Django-Web3-Auth's URL patterns:
 
 .. code-block:: python
 
-    from web3auth import urls as web3auth_urls
+    from sssauth import urls as sssauth_urls
 
 
     urlpatterns = [
         ...
-        url(r'^', include(web3auth_urls)),
+        url(r'^', include(sssauth_urls)),
         ...
     ]
 
@@ -97,7 +97,7 @@ Add some javascript to handle login:
 
 .. code-block:: html
 
-    <script src="{% static 'web3auth/js/web3auth.js' %}"></script>
+    <script src="{% static 'sssauth/js/sssauth.js' %}"></script>
 
 
 .. code-block:: javascript
@@ -108,7 +108,7 @@ Add some javascript to handle login:
           if (!loggedIn) {
             alert("Please unlock your web3 provider (probably, Metamask)")
           } else {
-            var login_url = '{% url 'web3auth:web3auth_login_api' %}';
+            var login_url = '{% url 'sssauth:sssauth_login_api' %}';
             web3Login(login_url, console.log, console.log, console.log, console.log, console.log, function (resp) {
               console.log(resp);
               window.location.replace(resp.redirect_url);
@@ -121,16 +121,16 @@ Add some javascript to handle login:
       }
     }
 
-You can access signup using {% url 'web3auth:web3auth_signup' %}.
+You can access signup using {% url 'sssauth:sssauth_signup' %}.
 
-If you have any questions left, head to the example app https://github.com/Bearle/django-web3-auth/tree/master/example
+If you have any questions left, head to the example app https://github.com/Bearle/django-sss-auth/tree/master/example
 
 
 
 Important details and FAQ
 -------------------------
 
-1. *If you set a custom address field (WEB3AUTH_USER_ADDRESS_FIELD), it MUST be unique (unique=True).*
+1. *If you set a custom address field (SSSAUTH_USER_ADDRESS_FIELD), it MUST be unique (unique=True).*
 
 This is needed because if it's not, the user can register a new account with the same address as the other one,
 meaning that the user can now login as any of those accounts (sometimes being the wrong one).

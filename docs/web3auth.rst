@@ -1,85 +1,85 @@
-web3auth package
+sssauth package
 ================
 
 Submodules
 ----------
 
-web3auth\.admin module
+sssauth\.admin module
 ----------------------
 
-.. automodule:: web3auth.admin
+.. automodule:: sssauth.admin
     :members:
     :undoc-members:
     :show-inheritance:
 
-web3auth\.apps module
+sssauth\.apps module
 ---------------------
 
-.. automodule:: web3auth.apps
+.. automodule:: sssauth.apps
     :members:
     :undoc-members:
     :show-inheritance:
 
-web3auth\.backend module
+sssauth\.backend module
 ------------------------
 
-.. automodule:: web3auth.backend
+.. automodule:: sssauth.backend
     :members:
     :undoc-members:
     :show-inheritance:
 
-web3auth\.forms module
+sssauth\.forms module
 ----------------------
 
-.. automodule:: web3auth.forms
+.. automodule:: sssauth.forms
     :members:
     :undoc-members:
     :show-inheritance:
 
-web3auth\.models module
+sssauth\.models module
 -----------------------
 
-.. automodule:: web3auth.models
+.. automodule:: sssauth.models
     :members:
     :undoc-members:
     :show-inheritance:
 
-web3auth\.settings module
+sssauth\.settings module
 -------------------------
 
-.. automodule:: web3auth.settings
+.. automodule:: sssauth.settings
     :members:
     :undoc-members:
     :show-inheritance:
 
-web3auth\.tests module
+sssauth\.tests module
 ----------------------
 
-.. automodule:: web3auth.tests
+.. automodule:: sssauth.tests
     :members:
     :undoc-members:
     :show-inheritance:
 
-web3auth\.urls module
+sssauth\.urls module
 ---------------------
 
-.. automodule:: web3auth.urls
+.. automodule:: sssauth.urls
     :members:
     :undoc-members:
     :show-inheritance:
 
-web3auth\.utils module
+sssauth\.utils module
 ----------------------
 
-.. automodule:: web3auth.utils
+.. automodule:: sssauth.utils
     :members:
     :undoc-members:
     :show-inheritance:
 
-web3auth\.views module
+sssauth\.views module
 ----------------------
 
-.. automodule:: web3auth.views
+.. automodule:: sssauth.views
     :members:
     :undoc-members:
     :show-inheritance:
@@ -88,7 +88,7 @@ web3auth\.views module
 Module contents
 ---------------
 
-.. automodule:: web3auth
+.. automodule:: sssauth
     :members:
     :undoc-members:
     :show-inheritance:

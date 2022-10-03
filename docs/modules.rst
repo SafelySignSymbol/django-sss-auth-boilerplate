@@ -1,7 +1,7 @@
-web3auth
+sssauth
 ========
 
 .. toctree::
    :maxdepth: 4
 
-   web3auth
+   sssauth

@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-test_django-web3-auth
+test_django-sss-auth
 ------------
 
-Tests for `django-web3-auth` models module.
+Tests for `django-sss-auth` models module.
 """
 
 from django.test import TestCase

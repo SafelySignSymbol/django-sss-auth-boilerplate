@@ -5,5 +5,5 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path(r'^', include('web3auth.urls', namespace='web3auth')),
+    path(r'^', include('sssauth.urls', namespace='sssauth')),
 ]

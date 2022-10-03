@@ -1,0 +1,12 @@
+FROM python:3.9.5
+
+ENV PYTHONUNBUFFERED 1
+RUN mkdir /workspace
+
+WORKDIR /workspace
+
+ADD requirements.txt /workspace/
+
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+RUN pip install -i https://test.pypi.org/simple/ sssauth==0.0.2
