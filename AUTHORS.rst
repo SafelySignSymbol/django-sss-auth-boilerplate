@@ -4,10 +4,11 @@ Credits
 
 Development Lead
 ----------------
+*
 
-* Denis Bobrov <tech@bearle.ru>
 
 Contributors
 ------------
 
+* Denis Bobrov <tech@bearle.ru>
 * Alexander Tereshkin <atereshkin@y-node.com>
