@@ -9,7 +9,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
-def publicKey_to_addr(publicKey,networkType = 152):
+def publicKey_to_addr(publicKey, networkType = 152):
     if len(publicKey)!= 64:
         raise ValueError("Invalid publicKey")
     part_one_hash_builder = hashlib.sha3_256()
