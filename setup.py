@@ -11,7 +11,7 @@ except ImportError:
 
 
 def get_version(*file_paths):
-    """Retrieves the version from web3auth/__init__.py"""
+    """Retrieves the version from sssauth/__init__.py"""
     filename = os.path.join(os.path.dirname(__file__), *file_paths)
     version_file = open(filename).read()
     version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
@@ -21,7 +21,7 @@ def get_version(*file_paths):
     raise RuntimeError('Unable to find version string.')
 
 
-version = get_version("web3auth", "__init__.py")
+version = get_version("sssauth", "__init__.py")
 
 if sys.argv[-1] == 'publish':
     try:
@@ -45,32 +45,27 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
-    name='django-web3-auth',
+    name='sssauth',
     version=version,
-    description="""django-web3-auth is a pluggable Django app that enables login/signup via an Ethereum wallet (a la CryptoKitties). The user authenticates themselves by digitally signing the session key with their wallet's private key.""",  # noqa: E501
+    description="""sssauth is a pluggable Django app that enables login/signup via an SSS Extension""",  # noqa: E501
     long_description=readme + '\n\n' + history,
-    author='Bearle',
-    author_email='tech@bearle.ru',
-    url='https://github.com/Bearle/django-web3-auth',
+    author='SSSExtension',
+    author_email='notify.monakaxym@bgmail.com',
+    url='https://github.com/SafelySignSymbol/django-sss-auth-boilerplate',
     packages=[
-        'web3auth',
+        'sssauth',
     ],
     include_package_data=True,
     install_requires=['Django>=4.0'],
     license="MIT",
     zip_safe=False,
-    keywords='django-web3-auth',
+    keywords='sssauth',
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Framework :: Django :: 1.11',
-        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 4.0',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
-        'Natural Language :: English',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
+        'Natural Language :: Japanese',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],

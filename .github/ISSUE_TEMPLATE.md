@@ -1,4 +1,4 @@
-* Django-Web3-Auth version:
+* sssauth version:
 * Django version:
 * Python version:
 * Operating System:
