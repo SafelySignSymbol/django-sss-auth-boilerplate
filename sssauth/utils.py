@@ -38,7 +38,7 @@ def recover_to_addr(payload):
     verifier = decode["verifierAddress"]
     if verifier != settings.OWNER:
         raise ValueError("Invalid verifier")
-    if time.time()*1000 - int(iat) + settings.EXPIRATION_DATE < 0:
+    if time.time()*1000 - int(iat) - settings.EXPIRATION_DATE > 0:
         raise ValueError("iat expired")
     return signer
 

@@ -45,11 +45,11 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
-    name='sssauth',
+    name='sss-auth',
     version=version,
     description="""sssauth is a pluggable Django app that enables login/signup via an SSS Extension""",  # noqa: E501
     long_description=readme + '\n\n' + history,
-    author='SSSExtension',
+    author='SSS-Extension',
     author_email='notify.monakaxym@bgmail.com',
     url='https://github.com/SafelySignSymbol/django-sss-auth-boilerplate',
     packages=[
@@ -61,12 +61,9 @@ setup(
     zip_safe=False,
     keywords='sssauth',
     classifiers=[
-        'Development Status :: 3 - Alpha',
         'Framework :: Django :: 4.0',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: MIT License',
         'Natural Language :: Japanese',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
     ],
 )
