@@ -9,4 +9,3 @@ ADD requirements.txt /workspace/
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN pip install -i https://test.pypi.org/simple/ sssauth==0.0.2

@@ -3,136 +3,80 @@
 ## Install
 
 ```
-$ https://github.com/SafelySignSymbol/django-sss-auth-boilerplate.git
-
-$ docker compose up -d
+$ pip install sss-auth
 ```
 
-## Environment
-
-docker-compose.yml
-
-```docker-compose.yml
-version: '3'
-
-services:
-  server:
-    build: ./docker
-    ports:
-      - 8000:8000
-    volumes:
-      - ./python:/workspace
-    working_dir: /workspace
-    command: python manage.py runserver 0.0.0.0:8000
+## Django側での設定
+Djangoプロジェクトの ```INSTALLED_APPS```や```AUTHENTICATION_BACKENDS```に追加します
 
 ```
-
-Dockerfile
-
-```Dockerfile
-FROM python:3.9.5
-
-ENV PYTHONUNBUFFERED 1
-RUN mkdir /workspace
-
-WORKDIR /workspace
-
-ADD requirements.txt /workspace/
-
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
+INSTALLED_APPS = (
+    ...
+    'sssauth.apps.sssAuthConfig',
+    ...
+)
+AUTHENTICATION_BACKENDS = [
+'django.contrib.auth.backends.ModelBackend',
+'sssauth.backend.Web3Backend'
+]
 ```
 
-requirements.txt
-
-```requirements.txt
-Django==4
-django-bootstrap5
-symbol-hkdf-python
+settings.pyにsssauthで使用される設定を追加します
+```
+SERVER_SECRET = '**************'
+PUB = "************"
+OWNER = "********"
+NETWORK_TYPE = 152 # mainnet: 104, testnet: 152
+EXPIRATION_DATE = 60 * 1 * 1 * 1000
 ```
 
-## example
-### Directory
+ユーザーモデルの設定を行います
 ```
-.
-├── docker
-│   ├── Dockerfile
-│   └── requirements.txt
-├── docker-compose.yml
-├── python
-│   ├── AUTHORS.rst
-│   ├── CONTRIBUTING.rst
-│   ├── HISTORY.rst
-│   ├── LICENSE
-│   ├── License.txt
-│   ├── Licenses
-│   ├── MANIFEST.in
-│   ├── Makefile
-│   ├── README.md
-│   ├── README.rst
-│   ├── accounts
-│   ├── config
-│   ├── db.sqlite3
-│   ├── docs
-│   ├── example
-│   ├── manage.py
-│   ├── requirements.txt
-│   ├── requirements_dev.txt
-│   ├── requirements_test.txt
-│   ├── runtests.py
-│   ├── setup.cfg
-│   ├── setup.py
-│   ├── templates
-│   ├── tests
-│   ├── tox.ini
-│   └── sssauth
-└── script
-    └── init.sh
+# Using CustomUser
+AUTH_USER_MODEL = 'sssauth.MyUser'
 ```
-### scirpt/init.sh
+URLパターンにsssauthのURLを追加します
 ```
-if [ ! -e '/check' ]; then
-    echo "### initialize start   ####"
-    touch /check
-    python manage.py makemigrations sssauth
-    python manage.py migrate
-    echo "### initialize end   ####"
-else
-    echo "### Already setup ###"
-fi
-```
-### docker/Dockerfile
-```
-version: '3'
-
-services:
-  server:
-    build: ./docker
-    ports:
-      - 8000:8000
-    volumes:
-      - ./python/:/workspace
-      - ./script:/script
-    working_dir: /workspace
-    entrypoint: >
-      sh -c "
-        sh /script/init.sh &&
-        python manage.py runserver 0.0.0.0:8000
-      "
-```
-### Docker/requirements.txt
-```
-Django==4
-django-bootstrap5
-symbol-hkdf-python
+urlpatterns = [
+    path(r'^', include('sssauth.urls', namespace='sssauth')),
+]
 ```
 
-## 動作手順
+ログイン時の挙動を記述してURLに追加します
+```
+from sssauth.forms import LoginForm, SignupForm
+urlpatterns = [
+    path('signup/', CreateView.as_view(
+        template_name='accounts/signup.html',
+        form_class=SignupForm,
+        success_url='/',
+    ), name='signup'),
+    path('login/', LoginView.as_view(
+        redirect_authenticated_user=True,
+        template_name='accounts/login.html',
+    ), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+]
+```
+## Setting
+sss-authではサーバトークンの作成、復号に秘密鍵を使用します。秘密鍵はサーバ以外の用途で使用しないようにしてください。
+|  項目名  |  用途  | 値|
+| ---- | ---- |---- |
+|  SERVER_SECRET  |  サーバが使用する秘密鍵  | String(64)|
+|  PUB  | サーバが使用する公開鍵  |String(64)|
+|  OWNER  |  サーバのSymbolアドレス(ハイフン無し)  |String(39)|
+|  NETWORK_TYPE  |  ネットワークタイプ  |Int(メインネット:104, テストネット:152)|
+|EXPIRATION_DATE|サーバが受け入れる暗号化メッセージの有効期限|Int(ミリ秒）|
 
-1. localhost:8000 を開く
-2. 画面右上の登録ボタンを押下する
-3. 任意のメールアドレスを入力
-4. ユーザー名に Symbol アドレスを入力
-5. ログインを押下
-6. SSS を用いて認証を行う
+設定例
+```
+SERVER_SECRET = '0000000000000000000000000000000000000000000000000000000000000000'
+PUB = "3B6A27BCCEB6A42D62A3A8D02A6F0D73653215771DE243A63AC048A18B59DA29"
+OWNER = "TCHBDENCLKEBILBPWP3JPB2XNY64OE7PYHHE32I"
+NETWORK_TYPE = 152
+EXPIRATION_DATE = 60 * 1 * 1 * 1000
+```
+
+## Documentation
+その他の設定等や構成例についてはこちらをご覧ください
+https://docs.sss-symbol.com/

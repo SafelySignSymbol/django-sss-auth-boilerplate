@@ -60,9 +60,8 @@ def login_api(request):
                         error = _("Can't find a user for the provided signature with address {address}").format(
                             address=payload[:64])
                         return JsonResponse({'success': False, 'error': error})
-                except ValueError(e):
-                    print(e)
-                    return JsonResponse({'success': False, 'error': "invalid value"})
+                except ValueError:
+                    return JsonResponse({'success': False, 'error': "invalid payload"})
             else:
                 print("form error")
                 return JsonResponse({'success': False, 'error': json.loads(form.errors.as_json())})

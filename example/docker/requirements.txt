@@ -2,3 +2,4 @@ Django==4
 django-bootstrap5
 symbol-hkdf-python
 packaging==16.8
+sss-auth==0.0.1
