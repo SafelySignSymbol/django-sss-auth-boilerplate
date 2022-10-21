@@ -4,9 +4,6 @@ sssauth
 
 sssauth is a pluggable Django app that enables login/signup via an SSS Extension.
 
-image:: https://github.com/Bearle/django-sss-auth/blob/master/docs/_static/web3_auth_test.gif?raw=true
-
-
 
 Example project
 ---------------

@@ -4,7 +4,8 @@ Credits
 
 Development Lead
 ----------------
-*
+* monakaJP <notify.monakaxym@gmail.com>
+* inatasu <tatsuhiro.9699@gmail.com>
 
 
 Contributors
